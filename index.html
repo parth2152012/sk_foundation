@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saksham Foundation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Fixed navbar with a backdrop filter for a glassy, translucent effect */
+        .fixed-navbar {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            background-color: rgba(255, 255, 255, 0.5);
+            transition: all 0.5s ease;
+            z-index: 100;
+        }
+        
+        /* Animation container */
+        .animation-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        /* Image grid styles */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            width: 100%;
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .image-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .image-item {
+            width: 100%;
+            height: 33.333%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.5s ease-in-out;
+        }
+
+        /* Animation classes */
+        .slide-up {
+            animation: slideUp 1.5s forwards;
+        }
+
+        .slide-down {
+            animation: slideDown 1.5s forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 1.5s forwards;
+        }
+
+        .expand {
+            animation: expand 1.5s forwards;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(0); }
+            to { transform: translateY(-100%); }
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(0); }
+            to { transform: translateY(100%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes expand {
+            from {
+                transform: scale(1);
+                z-index: 10;
+            }
+            to {
+                transform: scale(1.5);
+                z-index: 20;
+            }
+        }
+
+        /* Hero section */
+        .hero-section {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 30;
+            opacity: 0;
+            transition: opacity 1s ease-in-out 1s;
+        }
+
+        .hero-section.visible {
+            opacity: 1;
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background-color: #E63946;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 0;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #C1121F;
+            transform: translateY(-2px);
+        }
+
+        /* Underline animation for nav links */
+        .nav-link {
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #E63946;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* Main background image */
+        .main-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 5;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .main-bg.visible {
+            opacity: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .image-grid {
+                display: none;
+            }
+
+            .main-bg {
+                opacity: 1;
+            }
+
+            .hero-section {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-900">
+
+    <!-- Fixed Translucent Navbar -->
+    <nav class="fixed-navbar fixed w-full top-0 left-0 py-6 px-8 transition-all duration-500">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="font-bold text-2xl text-white">SAKSHAM</a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#" class="nav-link text-white hover:text-gray-200">About</a>
+                <a href="#" class="nav-link text-white hover:text-gray-200">Programs</a>
+                <a href="#" class="nav-link text-white hover:text-gray-200">Resources</a>
+                <a href="#" class="nav-link text-white hover:text-gray-200">Get Involved</a>
+                <a href="#" class="nav-link text-white hover:text-gray-200">Contact</a>
+            </div>
+            <button class="md:hidden text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Background Image (initially hidden) -->
+    <img id="main-background" class="main-bg" src="images/hero.jpg" alt="Hero Background">
+
+    <!-- Animation Container -->
+    <div class="animation-container">
+        <div class="image-grid">
+            <!-- Left Column -->
+            <div class="image-column" id="left-column">
+                <div class="image-item">
+                    <img src="images/1.jpg" alt="Image 1">
+                </div>
+                <div class="image-item">
+                    <img src="images/2.jpg" alt="Image 2">
+                </div>
+                <div class="image-item">
+                    <img src="images/3.jpg" alt="Image 3">
+                </div>
+            </div>
+            
+            <!-- Middle Column -->
+            <div class="image-column" id="middle-column">
+                <div class="image-item">
+                    <img src="images/6.jpg" alt="Image 6">
+                </div>
+                <div class="image-item">
+                    <img src="images/7.jpg" alt="Image 7">
+                </div>
+                <div class="image-item" id="main-image-container">
+                    <img src="images/hero.jpg" alt="Main Image" id="main-image">
+                </div>
+            </div>
+            
+            <!-- Right Column -->
+            <div class="image-column" id="right-column">
+                <div class="image-item">
+                    <img src="images/11.jpg" alt="Image 11">
+                </div>
+                <div class="image-item">
+                    <img src="images/12.jpg" alt="Image 12">
+                </div>
+                <div class="image-item">
+                    <img src="images/13.jpg" alt="Image 13">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <div id="hero-section" class="hero-section">
+        <div class="text-center text-white px-4 max-w-5xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 drop-shadow-lg leading-tight">Empowering Communities Through Education</h1>
+            <p class="text-xl md:text-2xl max-w-3xl mx-auto mb-10 drop-shadow-md font-light">Saksham Foundation is dedicated to creating sustainable change through educational initiatives and community support programs.</p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center">
+                <button class="btn-primary">
+                    Our Mission
+                </button>
+                <button class="border-2 border-white text-white hover:bg-white hover:text-gray-900 py-3 px-8 uppercase font-semibold tracking-wider transition-all duration-300">
+                    Get Involved
+                </button>
+            </div>
+            <div class="mt-16 flex justify-center space-x-6">
+                <a href="#" class="text-white hover:text-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M22.675 0h-21.35c-.732 0-1.325.593-1.325 1.325v21.351c0 .731.593 1.324 1.325 1.324h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12v9.293h6.116c.73 0 1.323-.593 1.323-1.325v-21.35c0-.732-.593-1.325-1.325-1.325z"/>
+                    </svg>
+                </a>
+                <a href="#" class="text-white hover:text-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+                <a href="#" class="text-white hover:text-gray-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get elements
+            const leftColumn = document.getElementById('left-column');
+            const middleColumn = document.getElementById('middle-column');
+            const rightColumn = document.getElementById('right-column');
+            const mainImage = document.getElementById('main-image');
+            const mainBackground = document.getElementById('main-background');
+            const heroSection = document.getElementById('hero-section');
+            
+            // Check if mobile
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // For mobile, skip animation and show final state
+                mainBackground.classList.add('visible');
+                heroSection.classList.add('visible');
+            } else {
+                // Start animation sequence after a short delay
+                setTimeout(() => {
+                    // 1. Start column animations
+                    leftColumn.classList.add('slide-down');
+                    rightColumn.classList.add('slide-down');
+                    middleColumn.classList.add('slide-up');
+                    
+                    // 2. Expand the main image
+                    mainImage.classList.add('expand');
+                    
+                    // 3. After columns move, show the main background
+                    setTimeout(() => {
+                        mainBackground.classList.add('visible');
+                        
+                        // 4. Show hero content
+                        setTimeout(() => {
+                            heroSection.classList.add('visible');
+                        }, 500);
+                    }, 1000);
+                }, 500);
+            }
+            
+            // Change navbar background on scroll
+            window.addEventListener('scroll', () => {
+                const navbar = document.querySelector('.fixed-navbar');
+                if (window.scrollY > 50) {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                    navbar.style.boxShadow = '0 4px 6px -1px rgba(0, 0, 0, 0.1)';
+                } else {
+                    navbar.style.backgroundColor = 'rgba(0, 0, 0, 0.3)';
+                    navbar.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
